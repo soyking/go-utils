@@ -1,4 +1,4 @@
-package tu
+package gu
 
 // 获取前 n 天凌晨时间，东八区上，unix 时间戳取余 60*60*24 从早上8点开始
 func GetMidnightBeforeDays(currentTime int64, days int64) int64 {
