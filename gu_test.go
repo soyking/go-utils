@@ -42,6 +42,17 @@ func TestGetConsequentTime(t *testing.T) {
 	t.Logf("%v", dates)
 }
 
+func TestToArrayInterface(t *testing.T) {
+	n := []int{1, 2, 3}
+	ni, err := ToArrayInterface(n)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i := range ni {
+		t.Log(ni[i].(int))
+	}
+}
+
 func TestIntn(t *testing.T) {
 	count := map[int]int{0: 0, 1: 0}
 	for i := 0; i < 1000; i++ {

@@ -5,9 +5,9 @@ import (
 	"reflect"
 )
 
-// 任意数组不能作为 []interface
-// 但是可以作为 interface
-func toArrayInterface(src interface{}) ([]interface{}, error) {
+// 任意数组不能作为 []interface{}
+// 但是可以作为 interface{}
+func ToArrayInterface(src interface{}) ([]interface{}, error) {
 	v := reflect.ValueOf(src)
 	if v.Kind() != reflect.Slice {
 		return nil, errors.New("not slice")
