@@ -41,3 +41,13 @@ func TestGetConsequentTime(t *testing.T) {
 	}
 	t.Logf("%v", dates)
 }
+
+func TestIntn(t *testing.T) {
+	count := map[int]int{0: 0, 1: 0}
+	for i := 0; i < 1000; i++ {
+		n := Intn(2)
+		count[n]++
+	}
+	t.Log(count[0])
+	t.Log(count[1])
+}
