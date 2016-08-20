@@ -69,7 +69,7 @@ func TestIntn(t *testing.T) {
 func TestBTime(t *testing.T) {
 	sess, err := mgo.Dial("127.0.0.1")
 	if err != nil {
-		t.Error("set up your mongoDB")
+		t.Error("set up your MongoDB")
 	} else {
 		db := "__gu_test__"
 		collection := "btime"

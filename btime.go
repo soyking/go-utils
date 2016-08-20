@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-// time.Time 可以在 mongo 中存储成 Date 格式便于查询
-// 但在转换成 json 的时候可读性不好, 这里重新包裹一层
+// time.Time 可以在 MongoDB 中存储成 Date 格式便于查询
+// 但在转换成 json 的时候可处理性不好, 这里重新包裹一层
 // 转换 json 格式是时间戳数字
 type BTime struct {
 	time.Time
