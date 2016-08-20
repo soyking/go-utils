@@ -1,6 +1,9 @@
 package gu
 
 import (
+	"encoding/json"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 	"testing"
 	"time"
 )
@@ -61,4 +64,38 @@ func TestIntn(t *testing.T) {
 	}
 	t.Log(count[0])
 	t.Log(count[1])
+}
+
+func TestBTime(t *testing.T) {
+	sess, err := mgo.Dial("127.0.0.1")
+	if err != nil {
+		t.Error("set up your mongoDB")
+	} else {
+		db := "__gu_test__"
+		collection := "btime"
+		id := "__gu_test_btime__"
+
+		type Test struct {
+			ID   string `json:"_id" bson:"_id"`
+			Time *BTime `json:"time" bson:"time"`
+		}
+
+		now := NowBTime()
+		test1 := &Test{ID: id, Time: now}
+		_, err := sess.DB(db).C(collection).Upsert(bson.M{"_id": id}, test1)
+		if err != nil && !mgo.IsDup(err) {
+			t.Error(err)
+		} else {
+			var test2 Test
+			err = sess.DB(db).C(collection).Find(bson.M{"_id": id}).One(&test2)
+			if err != nil {
+				t.Error(err)
+			} else {
+				t.Logf("now: %s", now)
+				t.Logf("db:  %s", test2.Time)
+				b, _ := json.Marshal(test2)
+				t.Logf("parse to json: %s", string(b))
+			}
+		}
+	}
 }
