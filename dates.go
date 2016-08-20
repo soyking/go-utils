@@ -9,6 +9,8 @@ func ParseYYYYMMDD(date string) (time.Time, error) {
 }
 
 // 取区间内连续时间
+// beginDate endDate 格式 20016-01-02
+// 间隔 1 天
 func GetConsequentTime(beginDate, endDate string) ([]string, error) {
 	bt, err := ParseYYYYMMDD(beginDate)
 	if err != nil {

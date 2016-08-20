@@ -22,16 +22,16 @@ func TestStructToKey(t *testing.T) {
 }
 
 func TestMidnight(t *testing.T) {
-	currentTime := time.Now().Unix()
+	currentTime := time.Now()
 	// 凌晨
 	t0 := GetMidnightBeforeDays(currentTime, 0)
-	t.Logf("%s", time.Unix(t0, 0).String())
+	t.Logf("%s", t0.String())
 	// 今晚凌晨
 	t1 := GetMidnightBeforeDays(currentTime, -1)
-	t.Logf("%s", time.Unix(t1, 0).String())
+	t.Logf("%s", t1.String())
 	// 昨天凌晨
 	t2 := GetMidnightBeforeDays(currentTime, 1)
-	t.Logf("%s", time.Unix(t2, 0).String())
+	t.Logf("%s", t2.String())
 }
 
 func TestGetConsequentTime(t *testing.T) {

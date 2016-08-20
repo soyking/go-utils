@@ -7,10 +7,9 @@ import (
 )
 
 // 把一个结构体内容转成一个字符串，可以作为存储的 key
-// 用 _ 连接
 // 支持字符串，整数，布尔值，字符串数组
-// 传入指针
-func StructToKey(r interface{}) string {
+// 传入指针, 默认 _ 连接
+func StructToKey(r interface{}, connector ...string) string {
 	v := reflect.ValueOf(r).Elem()
 	s := []string{}
 	n := v.NumField()
@@ -31,5 +30,10 @@ func StructToKey(r interface{}) string {
 			s = append(s, fmt.Sprintf("%t", f.Bool()))
 		}
 	}
-	return strings.Join(s, "_")
+
+	c := "_"
+	if len(connector) > 0 {
+		c = connector[0]
+	}
+	return strings.Join(s, c)
 }
