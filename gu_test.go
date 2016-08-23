@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"reflect"
 	"testing"
 	"time"
 )
@@ -98,4 +99,61 @@ func TestBTime(t *testing.T) {
 			}
 		}
 	}
+}
+
+func checkEmpty(i interface{}) bool {
+	return CheckEmpty(reflect.ValueOf(i))
+}
+
+func assertBool(t *testing.T, target, result bool) {
+	if result != target {
+		t.Errorf("should be %t but %t\n", target, result)
+	}
+}
+
+func TestCheckEmptyString(t *testing.T) {
+	assertBool(t, true, checkEmpty(""))
+	assertBool(t, false, checkEmpty("abc"))
+}
+
+func TestCheckEmptySlice(t *testing.T) {
+	assertBool(t, true, checkEmpty([]int{}))
+	assertBool(t, false, checkEmpty([]int{1, 2, 3}))
+}
+
+func TestCheckEmptyPtr(t *testing.T) {
+	var p *int = nil
+	assertBool(t, true, checkEmpty(p))
+	v := 1
+	p = &v
+	assertBool(t, false, checkEmpty(p))
+}
+
+func TestCheckEmptyStruct(t *testing.T) {
+	type Value1 struct {
+		String   string
+		IntSlice []int
+	}
+
+	type Value2 struct {
+		String   string
+		IntSlice []int
+		V1       *Value1
+	}
+
+	v1 := Value1{}
+	v1.String = "abc"
+	assertBool(t, true, checkEmpty(v1))
+	v1.IntSlice = []int{1, 2, 3}
+	assertBool(t, false, checkEmpty(v1))
+
+	v2 := Value2{}
+	v2.String = "abc"
+	v2.IntSlice = []int{1, 2, 3}
+	v2.V1 = nil
+	assertBool(t, true, checkEmpty(v2))
+	v2.V1 = &Value1{String: "abc"}
+	assertBool(t, true, checkEmpty(v2))
+	v2.V1.IntSlice = []int{1, 2, 3}
+	assertBool(t, false, checkEmpty(v2))
 }
