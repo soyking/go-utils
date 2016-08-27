@@ -1,8 +1,8 @@
 package gu
 
 import (
-	"strconv"
 	"gopkg.in/mgo.v2/bson"
+	"strconv"
 	"time"
 )
 
